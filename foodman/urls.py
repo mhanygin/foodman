@@ -15,7 +15,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from foodman.views import get_meals
 
 urlpatterns = [
     path('', admin.site.urls),
+    path('meals/', get_meals),
 ]

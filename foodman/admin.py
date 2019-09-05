@@ -3,17 +3,21 @@ from .models import Ingredients, Measures, Recipes, Compositions, Dishes, Ingred
 
 
 class FoodManAdmin(admin.ModelAdmin):
-    pass
+    empty_value_display = '-empty-'
 
 
 @admin.register(Ingredients)
 class IngredientsAdmin(FoodManAdmin):
-    pass
+    fields = ('name', 'description', 'measure')
+    list_display = ('name', 'description', 'measure')
+    list_filter = ('name', 'measure')
 
 
 @admin.register(Measures)
 class MeasuresAdmin(FoodManAdmin):
-    pass
+    fields = ('name', 'description')
+    list_display = ('name', 'description')
+    list_filter = ('name',)
 
 
 class CompositionsInline(admin.TabularInline):
@@ -24,21 +28,23 @@ class CompositionsInline(admin.TabularInline):
 @admin.register(Recipes)
 class RecipesAdmin(FoodManAdmin):
     inlines = [CompositionsInline]
-
-
-# @admin.register(Compositions)
-# class CompositionsAdmin(FoodManAdmin):
-#     pass
+    fields = ('name', 'description', 'persons')
+    list_display = ('name', 'description', 'persons')
+    list_filter = ('name', 'persons')
 
 
 @admin.register(Dishes)
 class DishesAdmin(FoodManAdmin):
-    pass
+    fields = ('name', 'description', 'persons')
+    list_display = ('name', 'description', 'persons')
+    list_filter = ('name', 'persons')
 
 
 @admin.register(IngredientsStock)
 class IngredientsStockAdmin(FoodManAdmin):
-    pass
+    fields = ('ingredient', 'amount')
+    list_display = ('ingredient', 'amount')
+    list_filter = ('ingredient',)
 
 
 class Meal2DishInline(admin.TabularInline):
@@ -49,3 +55,6 @@ class Meal2DishInline(admin.TabularInline):
 @admin.register(Meals)
 class MealsAdmin(FoodManAdmin):
     inlines = [Meal2DishInline]
+    fields = ('name', 'date')
+    list_display = ('name', 'date')
+    list_filter = ('name', 'date')

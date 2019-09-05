@@ -5,6 +5,8 @@ class FoodManModel(models.Model):
     class Meta:
         abstract = True
 
+    empty_value_display = '-empty-'
+
 
 class Measures(FoodManModel):
     name = models.CharField(max_length=30)
@@ -16,7 +18,7 @@ class Measures(FoodManModel):
 
 class Ingredients(FoodManModel):
     name = models.CharField(max_length=30)
-    desc = models.CharField(max_length=200)
+    description = models.CharField(max_length=200)
     measure = models.ForeignKey(Measures, on_delete=models.CASCADE, null=False)
 
     def __str__(self):
@@ -25,7 +27,7 @@ class Ingredients(FoodManModel):
 
 class Recipes(FoodManModel):
     name = models.CharField(max_length=50)
-    desc = models.CharField(max_length=200)
+    description = models.CharField(max_length=200)
     persons = models.PositiveIntegerField(default=1)
 
     def __str__(self):
@@ -43,9 +45,9 @@ class Compositions(FoodManModel):
 
 class Dishes(FoodManModel):
     name = models.CharField(max_length=50)
-    desc = models.CharField(max_length=200)
-    dish_persons = models.PositiveIntegerField(default=1)
-    dish_recipe = models.ForeignKey(Recipes, on_delete=models.CASCADE, null=False, blank=False)
+    description = models.CharField(max_length=200)
+    persons = models.PositiveIntegerField(default=1)
+    recipe = models.ForeignKey(Recipes, on_delete=models.CASCADE, null=False, blank=False)
 
     def __str__(self):
         return self.name
@@ -54,6 +56,9 @@ class Dishes(FoodManModel):
 class IngredientsStock(FoodManModel):
     ingredient = models.ForeignKey(Ingredients, on_delete=models.CASCADE, null=False, blank=False)
     amount = models.PositiveIntegerField(default=1)
+
+    def __str__(self):
+        return '{} ({})'.format(self.ingredient.name, self.amount)
 
 
 class Meals(FoodManModel):
